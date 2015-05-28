@@ -14,8 +14,10 @@ function($scope){
   ]
 
   $scope.addPost = function(){
-    $scope.posts.push({title: $scope.title, upvotes: 4});
-    $scope.title = '';
+    if ($scope.title && $scope.title.length > 0) {
+      $scope.posts.push({title: $scope.title, upvotes: 4});
+      $scope.title = '';
+    }
   }
 
 }]);
