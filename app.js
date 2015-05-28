@@ -1,6 +1,12 @@
 var app = angular.module('RedditClone', []);
+.factory('posts', [function(){
+  var o = {
+    posts: []
+  };
+  return o;
+}]);
 
-app.controller('MainCtrl', [
+.controller('MainCtrl', [
 '$scope',
 function($scope){
   $scope.test = 'Hello world!';
