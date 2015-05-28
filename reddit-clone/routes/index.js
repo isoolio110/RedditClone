@@ -13,9 +13,9 @@ var Comment = mongoose.comment('Comment');
 
 router.get('/posts', function(req, res, next){
   Post.find(function(err, posts){
-    if (err ) { next(err);}
+    if (err ) { return next(err);}
     res.json(posts);
-  })
+  });
 });
 
 router.post('/posts', function(req, res, next){
