@@ -37,7 +37,12 @@ function($scope, posts){
       $scope.posts.push({
         title: $scope.title,
         link: $scope.link,
-        upvotes: 4});
+        upvotes: 4,
+        comments: [
+          {author: 'Joe', body: 'Cool post!', upvotes: 0},
+          {author: 'Bob', body: 'Great idea but everything is wrong!', upvotes: 0}
+        ]        
+      });
       $scope.title = '';
       $scope.link = '';
     }
