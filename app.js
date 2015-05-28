@@ -11,7 +11,7 @@ var app = angular.module('RedditClone', ['ui.router'])
         controller: 'MainCtrl'
       })
       .state('posts', {
-        url: '/posts/{:id}',
+        url: '/posts/{id}',
         templateUrl: '/posts.html',
         controller: 'PostsCtrl'
       })
