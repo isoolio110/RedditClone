@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 
 var mongoose = require('mongoose');
 var Post = mongoose.model('Post');
-var Comment = mongoose.comment('Comment');
+var Comment = mongoose.model('Comment');
 
 
 router.get('/posts', function(req, res, next){
