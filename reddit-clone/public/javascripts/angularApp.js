@@ -8,7 +8,7 @@ var app = angular.module('RedditClone', ['ui.router'])
       .state('home', {
         url: '/home',
         templateUrl: '/home.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
         resolve: {
           postPromise: ['posts', 
           function(posts){
