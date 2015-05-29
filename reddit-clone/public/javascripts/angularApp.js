@@ -9,6 +9,12 @@ var app = angular.module('RedditClone', ['ui.router'])
         url: '/home',
         templateUrl: '/home.html',
         controller: 'MainCtrl'
+        resolve: {
+          postPromise: ['posts', 
+          function(posts){
+            return posts.getAll();
+          }]
+        }
       })
       .state('posts', {
         url: '/posts/{id}',
@@ -19,10 +25,24 @@ var app = angular.module('RedditClone', ['ui.router'])
       $urlRouterProvider.otherwise('home');
   }])
 
-.factory('posts', [function(){
+.factory('posts', ['$http', function($http){
   var o = {
     posts: []
   };
+
+  o.getAll = function(){
+    return $http.get('/posts').success(
+      function(data){
+        angular.copy(data, o.posts);
+      });
+  }
+
+  o.create = function(post){
+    return $http.post('/posts', post).success(function(data){
+      o.posts.push(data);
+    });
+  };
+
   return o;
 }])
 
@@ -34,14 +54,9 @@ function($scope, posts){
   $scope.posts = posts.posts;
   $scope.addPost = function(){
     if ($scope.title && $scope.title.length > 0) {
-      $scope.posts.push({
+      posts.create({
         title: $scope.title,
-        link: $scope.link,
-        upvotes: 4,
-        comments: [
-          {author: 'Joe', body: 'Cool post!', upvotes: 0},
-          {author: 'Bob', body: 'Great idea but everything is wrong!', upvotes: 0}
-        ]        
+        link: $scope.link      
       });
       $scope.title = '';
       $scope.link = '';
