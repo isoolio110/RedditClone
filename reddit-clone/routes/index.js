@@ -60,6 +60,7 @@ router.post('/posts/:post/comments',
         res.json(comment);
       });
     });
-  });
+});
+
 
 module.exports = router;
