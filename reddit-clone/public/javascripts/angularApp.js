@@ -70,6 +70,14 @@ var app = angular.module('RedditClone', ['ui.router'])
     return $http.post('/posts/' + id + '/comments', comment);
   }
 
+  o.upvoteComment = function(post, comment){
+    return $http.put('/posts/' + post._id 
+      + '/comments/' + comment._id 
+      + '/upvote').success(function(data){
+        comment.upvotes += 1;
+      })
+  }
+
   return o;
 }])
 
@@ -114,6 +122,10 @@ function($scope, $stateParams, posts, post){
       })
       $scope.body = '';
     }
+  }
+
+  $scope.incrementUpvotes = function(comment) {
+    posts.upvoteComment(post, comment);
   }
 
 }])
