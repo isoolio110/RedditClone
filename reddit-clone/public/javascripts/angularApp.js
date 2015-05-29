@@ -9,6 +9,8 @@ var app = angular.module('RedditClone', ['ui.router'])
         url: '/home',
         templateUrl: '/home.html',
         controller: 'MainCtrl',
+        // ensures that all posts are loaded
+        // before page shows up
         resolve: {
           postPromise: ['posts', 
           function(posts){
@@ -19,9 +21,13 @@ var app = angular.module('RedditClone', ['ui.router'])
       .state('posts', {
         url: '/posts/{id}',
         templateUrl: '/posts.html',
-        controller: 'PostsCtrl'
-      })
-
+        controller: 'PostsCtrl',
+        resolve: {
+          post: ['$stateParams', 'posts', function($stateParams, posts){
+            return posts.get($stateParams.id);
+          }]
+        }
+      });
       $urlRouterProvider.otherwise('home');
   }])
 
@@ -30,15 +36,25 @@ var app = angular.module('RedditClone', ['ui.router'])
     posts: []
   };
 
+  o.get = function(id){
+    return $http.get('/posts/' + id).then(function(res){
+      return res.data;
+    })
+  }
+
   o.getAll = function(){
     return $http.get('/posts').success(
       function(data){
+        // creates a fresh copy of data to o.posts
         angular.copy(data, o.posts);
       });
   }
 
   o.create = function(post){
-    return $http.post('/posts', post).success(function(data){
+    return $http.post('/posts', post).success(
+      function(data){
+        // will return the newly added post to us
+        // so we can update the ui
       o.posts.push(data);
     });
   };
